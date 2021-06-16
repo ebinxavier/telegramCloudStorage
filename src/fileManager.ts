@@ -53,7 +53,7 @@ export const uploadDirectory = async (
       fileId: res.document.file_id,
     });
   }
-  saveSnapShot(snapShot);
+  if (files.length) saveSnapShot(snapShot);
 };
 
 export const downloadDirectory = async (
