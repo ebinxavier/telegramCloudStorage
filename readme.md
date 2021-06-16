@@ -15,4 +15,4 @@
 5.  `npm install`
 6.  Since it is developed in Typescript, I assume that `ts-node` is installed globally in the machine.
 7.  Run `npm start -- --upload="src-folder-name"` to upload folder to that given telegram group
-8.  Use `npm start -- --download="dest-folder-name` to download the contents when you need it.
+8.  Use `npm start -- --download="dest-folder-name"` to download the contents when you need it.
