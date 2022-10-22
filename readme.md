@@ -16,3 +16,16 @@
 6.  Since it is developed in Typescript, I assume that `ts-node` is installed globally in the machine.
 7.  Run `npm start -- --upload="src-folder-name"` to upload folder to that given telegram group
 8.  Use `npm start -- --download="dest-folder-name"` to download the contents when you need it.
+
+<!-- https://api.telegram.org/bot692564636:AAFPToeWo4-f132zRNalvT88dOjJhfGJJjU/getUpdates -->
+
+Other CLI commands
+
+- register
+  - input username, password, token and chatID
+- logout
+- ls
+- cd
+- pwd
+- mkdir
+- rmdir

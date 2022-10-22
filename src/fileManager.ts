@@ -39,19 +39,27 @@ export const uploadDirectory = async (
   let updateIndex = 0;
   let fileIndex = 1;
   const files: string[] = await listAllFiles(directory);
-  console.log(files.length + " files found");
+  console.log("\n\n---------\n" + files.length + " files found\n---------\n\n");
+
   for (let fileName of files) {
-    if (updateIndex > updateSnapShotInterval) {
-      saveSnapShot(snapShot);
-      updateIndex = 0;
+    try {
+      if (updateIndex > updateSnapShotInterval) {
+        saveSnapShot(snapShot);
+        updateIndex = 0;
+      }
+      const filePath = path.resolve(fileName);
+      const data = fs.readFileSync(filePath);
+      console.log(`Uploading: ${fileName} [${fileIndex++}/${files.length}]`);
+      const res = await uploadDocument(data, fileName);
+      snapShot.push({
+        file: fileName.replace(`${directory}/`, ""),
+        fileId: res.document?.file_id || res.video?.file_id,
+      });
+    } catch (e) {
+      console.log("Upload Error:", fileName, e);
+    } finally {
+      console.log("Done!");
     }
-    const data = fs.readFileSync(path.resolve(fileName));
-    console.log(`Uploading: ${fileName} [${fileIndex++}/${files.length}]`);
-    const res = await uploadDocument(data, fileName);
-    snapShot.push({
-      file: fileName.replace(`${directory}/`, ""),
-      fileId: res.document.file_id,
-    });
   }
   if (files.length) saveSnapShot(snapShot);
 };

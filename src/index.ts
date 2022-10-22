@@ -5,6 +5,14 @@ import yargs from "yargs/yargs";
 import { hideBin } from "yargs/helpers";
 const argv = yargs(hideBin(process.argv)).argv;
 import { downloadDirectory, uploadDirectory } from "./fileManager";
+import { connect } from "./database/database";
+
+import { startAPIServer } from "./apis/apis";
+
+// Connecting to MongoDB before all operations.
+connect();
+// Start Express Server
+startAPIServer();
 
 const upload = argv["upload"];
 const download = argv["download"];
@@ -19,17 +27,15 @@ const showHelp = () => {
     `);
 };
 
-if (!upload && !download) {
-  showHelp();
-} else {
-  if (upload) {
-    uploadDirectory(upload);
-  } else if (download) {
-    if (!from) {
-      console.log(
-        "No docs.json file specified, trying to fetch details from 'docs.json' file"
-      );
-    }
-    downloadDirectory(from || "docs.json", download);
+if (upload) {
+  uploadDirectory(upload);
+} else if (download) {
+  if (!from) {
+    console.log(
+      "No docs.json file specified, trying to fetch details from 'docs.json' file"
+    );
   }
+  downloadDirectory(from || "docs.json", download);
+} else {
+  showHelp();
 }
