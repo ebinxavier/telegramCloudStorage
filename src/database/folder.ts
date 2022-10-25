@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
+const FileSchema = new Schema({
+  fileName: String,
+  content: Object,
+});
+
 export const FolderSchema = new Schema(
   {
     folderName: {
@@ -9,7 +14,7 @@ export const FolderSchema = new Schema(
     },
     path: String, // eg: /user/folderA/folderB
     folders: [Schema.Types.Mixed],
-    files: [String],
+    files: [FileSchema],
     lastModified: Date,
     created: Date,
     owner: Schema.Types.ObjectId,
@@ -148,4 +153,30 @@ export const removeFolder = async (
   const ids = await getAllDocsToBeDeleted(folder._id, listOfDocs);
   const status = await FolderModel.deleteMany({ _id: { $in: ids } });
   return status;
+};
+
+export const addFile = async (
+  owner: mongoose.Types.ObjectId,
+  path: string,
+  fileName: string,
+  fileContent: any
+) => {
+  if (!owner || !path || !fileName || !fileContent)
+    throw new Error("Owner, path and folderName are required!");
+
+  const FolderModel = mongoose.model(`FolderModel`, FolderSchema);
+  path = removeTrailingSlash(path);
+  const folder = await FolderModel.findOne({ path, owner });
+  if (!folder) throw new Error("Folder not found!");
+
+  const FileModel = mongoose.model(`FileModel`, FileSchema);
+  const file = new FileModel({
+    fileName,
+    content: fileContent,
+  });
+
+  folder.files.push(file);
+
+  await folder.save();
+  console.log("File added to ", folder);
 };

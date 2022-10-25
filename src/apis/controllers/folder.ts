@@ -2,7 +2,7 @@ import express from "express";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import { listFolder, makeFolder, removeFolder } from "../../database/folder";
-import { injectOwnerId } from "./middlewares";
+import { injectOwnerId } from "../middlewares";
 const folder = express.Router();
 
 folder.use(injectOwnerId);

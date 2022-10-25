@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
-import { getSecret } from "../../utils";
+import { getSecret } from "../utils";
 
 export const injectOwnerId = (
   req: Request,
