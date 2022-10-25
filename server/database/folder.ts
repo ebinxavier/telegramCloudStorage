@@ -177,6 +177,7 @@ export const addFile = async (
 
   folder.files.push(file);
 
-  await folder.save();
+  const doc = await folder.save();
   console.log("File added to ", folder);
+  return doc;
 };

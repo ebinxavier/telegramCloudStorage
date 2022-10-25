@@ -2,7 +2,7 @@ import { Button, Input, Modal } from "antd";
 import React, { useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router-dom";
-import { deleteFolder } from "../../services/home";
+import { deleteFolder } from "../../services/folder";
 
 interface DeleteFolderProps {
   updateList: any;

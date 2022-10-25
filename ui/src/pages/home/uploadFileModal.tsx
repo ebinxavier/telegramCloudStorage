@@ -8,7 +8,7 @@ interface UploadFileProps {
   updateList?: any;
 }
 
-const UploadFile: React.FC<UploadFileProps> = () => {
+const UploadFile: React.FC<UploadFileProps> = ({ updateList }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchParams] = useSearchParams();
 
@@ -33,7 +33,10 @@ const UploadFile: React.FC<UploadFileProps> = () => {
         footer={null}
         width={"70vw"}
       >
-        <Uploader path={searchParams.get("path") || "/root"} />
+        <Uploader
+          path={searchParams.get("path") || "/root"}
+          done={updateList}
+        />
       </Modal>
     </>
   );

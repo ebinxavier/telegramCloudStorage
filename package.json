@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.ts",
-    "start": "NODE_ENV=production ts-node src/index.ts",
+    "dev": "nodemon server/index.ts",
+    "start": "NODE_ENV=production ts-node server/index.ts",
     "react:build": "cd ui && npm run build",
-    "react:dev": "cd ui && npm run dev"
+    "react:dev": "cd ui && npm start"
   },
   "keywords": [],
   "author": "",

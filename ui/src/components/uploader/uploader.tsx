@@ -4,9 +4,10 @@ import { baseURL } from "../../services/common";
 
 interface UploaderProps {
   path: string;
+  done: any;
 }
 
-const Uploader: React.FC<UploaderProps> = ({ path }) => {
+const Uploader: React.FC<UploaderProps> = ({ path, done }) => {
   const getUploadParams = ({ file, meta }: any) => {
     const body = new FormData();
     body.append("file", file);
@@ -21,8 +22,10 @@ const Uploader: React.FC<UploaderProps> = ({ path }) => {
     };
   };
 
-  const handleChangeStatus = ({ meta, file }: any, status: any) => {
-    console.log(status, meta, file);
+  const handleChangeStatus = ({ meta, file, xhr }: any, status: any) => {
+    if (status === "done") {
+      done(JSON.parse(xhr.response));
+    }
   };
 
   return (

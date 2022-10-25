@@ -29,3 +29,8 @@ Other CLI commands
 - pwd
 - mkdir
 - rmdir
+
+## issues
+
+- Upload limit is 50mb now, increase it to 2gb use real account instead of bot
+- React page refresh issue.

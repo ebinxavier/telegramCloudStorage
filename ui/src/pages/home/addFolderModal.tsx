@@ -2,7 +2,7 @@ import { Button, Input, Modal } from "antd";
 import React, { useState } from "react";
 import { FolderAddOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router-dom";
-import { makeFolder } from "../../services/home";
+import { makeFolder } from "../../services/folder";
 
 interface AddFolderProps {
   updateList: any;
