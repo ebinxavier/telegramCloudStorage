@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FileOutlined } from "@ant-design/icons";
 import "./folder.css";
 import { getDownloadURL } from "../../services/file";
+import { Skeleton } from "antd";
 
 interface FolderProps {
   fileName: string;
@@ -10,12 +11,20 @@ interface FolderProps {
 }
 const File: React.FC<FolderProps> = ({ fileName, onClick, thumbnail }) => {
   const [icon, setIcon] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (thumbnail)
-      getDownloadURL(thumbnail).then((image) => {
-        setIcon(image.url);
-      });
+    if (thumbnail) {
+      getDownloadURL(thumbnail)
+        .then((image) => {
+          setIcon(image.url);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
   }, [thumbnail]);
 
   return (
@@ -23,6 +32,8 @@ const File: React.FC<FolderProps> = ({ fileName, onClick, thumbnail }) => {
       <div>
         {!thumbnail ? (
           <FileOutlined size={30} className="fileIcon" />
+        ) : loading ? (
+          <Skeleton.Image className="imageSkeleton" active />
         ) : (
           <img src={icon} alt="thumbnail" />
         )}

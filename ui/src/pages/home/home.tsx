@@ -36,7 +36,7 @@ const Home: React.FC = () => {
   const handleDownload = async (file: File) => {
     const fileId = file.content.file_id;
     const response = await getDownloadURL(fileId);
-    console.log(response);
+    window.open(response.url, "_self");
   };
 
   useEffect(() => {

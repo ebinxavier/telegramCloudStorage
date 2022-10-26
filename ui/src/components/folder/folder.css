@@ -57,3 +57,12 @@
     vertical-align: sub;
     padding-top: 50px;
 }
+
+.imageSkeleton{
+    padding: 23px 0;
+}
+
+.imageSkeleton div {
+    width: 130px !important;
+    height: 145px !important;
+}

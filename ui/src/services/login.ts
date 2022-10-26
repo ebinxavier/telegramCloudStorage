@@ -11,7 +11,7 @@ export const handleLogin = async (values: any) => {
     });
     const { data } = loginRequest;
     localStorage.setItem("accessToken", data.token);
-    history.push("/home");
+    history.push("/home?path=%2Froot");
   } catch (e) {
     showErrorMessage("Authentication Error", "Invalid username or password");
   }
