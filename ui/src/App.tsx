@@ -15,7 +15,7 @@ function App() {
           path="/"
           element={
             isLoggedIn() ? (
-              <Navigate replace to={"/home"} />
+              <Navigate replace to={"/home?path=%2Froot"} />
             ) : (
               <Navigate replace to={"/login"} />
             )

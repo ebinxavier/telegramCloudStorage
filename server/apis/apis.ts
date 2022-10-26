@@ -22,6 +22,11 @@ export const startAPIServer = () => {
   // Serving HTML
   app.use("/", express.static(path.join(__dirname, "../../ui/build")));
 
+  app.get("*", (_req, res) => {
+    console.log("url:", _req.url);
+    res.sendFile(path.join(__dirname, "../../ui/build/index.html"));
+  });
+
   app.listen(3000);
   console.log("Express started on port 3000");
 };
