@@ -6,3 +6,4 @@ docs.json
 .DS_Store
 uploads/
 .npmrc
+dist/
