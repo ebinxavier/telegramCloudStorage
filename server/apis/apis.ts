@@ -19,12 +19,12 @@ export const startAPIServer = () => {
   app.use("/api/v1/folder/", folderController);
   app.use("/api/v1/file/", fileController);
 
-  // Serving HTML
-  app.use("/", express.static(path.join(__dirname, "../../ui/build")));
+  // Serving React UI
+  app.use("/", express.static(path.join(__dirname, "../ui")));
 
   app.get("*", (_req, res) => {
     console.log("url:", _req.url);
-    res.sendFile(path.join(__dirname, "../../ui/build/index.html"));
+    res.sendFile(path.join(__dirname, "../ui/index.html"));
   });
 
   app.listen(3000);
