@@ -1,15 +1,11 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "./dist/index.js",
-      "use": "@vercel/node"
+  "installCommand": "npm install && cd ui && npm install ",
+  "buildCommand": "npm run build",
+  "functions": {
+    "dist/index.js": {
+      "memory": 3008,
+      "maxDuration": 30
     }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/"
-    }
-  ]
+  }
 }
