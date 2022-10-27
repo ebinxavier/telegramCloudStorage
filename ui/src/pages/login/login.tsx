@@ -2,37 +2,33 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, Row } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
-import { handleLogin } from "../services/login";
+import { handleLogin } from "../../services/user";
+import "./login.css";
 
 const Login: React.FC = () => {
   return (
     <Row>
       <Col md={8}></Col>
-      <Col
-        md={8}
-        style={{ marginTop: "calc( 50vh - 100px)", padding: "0 50px" }}
-      >
+      <Col md={8}>
         <Form
           name="normal_login"
-          className="login-form"
+          className="form-border"
           initialValues={{ remember: true }}
           onFinish={handleLogin}
         >
+          <div className="title">Telegram Storage</div>
           <Form.Item
             name="username"
             rules={[{ required: true, message: "Please input your Username!" }]}
           >
-            <Input
-              prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Username"
-            />
+            <Input prefix={<UserOutlined />} placeholder="Username" />
           </Form.Item>
           <Form.Item
             name="password"
             rules={[{ required: true, message: "Please input your Password!" }]}
           >
             <Input
-              prefix={<LockOutlined className="site-form-item-icon" />}
+              prefix={<LockOutlined />}
               type="password"
               placeholder="Password"
             />

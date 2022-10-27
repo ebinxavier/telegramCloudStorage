@@ -1,11 +1,17 @@
 import TelegramBot from "node-telegram-bot-api";
-const token = process.env.token;
-const chat = process.env.chatId;
-const bot = new TelegramBot(token);
 
-export const uploadDocument = (data, fileName) => {
+const cachedBots = {};
+const getMemoizedBot = (token) => {
+  if (!cachedBots[token]) {
+    cachedBots[token] = new TelegramBot(token);
+  }
+  return cachedBots[token];
+};
+
+export const uploadDocument = (data, fileName, token, chatId) => {
+  const bot = getMemoizedBot(token);
   return bot.sendDocument(
-    chat,
+    chatId,
     data,
     {},
     {
@@ -15,11 +21,12 @@ export const uploadDocument = (data, fileName) => {
   );
 };
 
-export const downloadDocument = async (fileId) => {
+export const downloadDocument = async (fileId, token) => {
+  const bot = getMemoizedBot(token);
   const file = await bot.getFile(fileId);
   return file.file_path;
 };
 
-export const getDownloadURL = (fileName) => {
+export const getDownloadURL = (fileName, token) => {
   return `https://api.telegram.org/file/bot${token}/${fileName}`;
 };

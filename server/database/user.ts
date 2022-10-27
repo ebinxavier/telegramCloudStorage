@@ -12,8 +12,8 @@ const UserSchema = new Schema({
     unique: true,
   },
   password: String,
-  botToken: String,
-  chatId: String,
+  botToken: { type: String, required: true },
+  chatId: { type: String, required: true },
   createdDate: Date,
   rootFolder: {
     type: Schema.Types.ObjectId,
@@ -82,7 +82,7 @@ export const registerUser = async (
 export const loginUser = async (
   username: string,
   password: string
-): Promise<mongoose.Types.ObjectId> => {
+): Promise<{ id: mongoose.Types.ObjectId; token: string; chatId: string }> => {
   try {
     const record = await UserModel.findOne({ username });
     if (record) {
@@ -95,7 +95,11 @@ export const loginUser = async (
       } else {
         console.log("Login Error!");
       }
-      return record._id;
+      return {
+        id: record._id,
+        token: record.botToken as string,
+        chatId: record.chatId as string,
+      };
     } else {
       console.log("No such user!");
       throw new Error("No such user!");

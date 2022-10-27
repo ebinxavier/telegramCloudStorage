@@ -5,12 +5,13 @@ import LayoutComponent from "../../components/layout";
 import { listFolder } from "../../services/folder";
 import "../../components/components.css";
 import { Divider, Empty } from "antd";
-import AddFolder from "./addFolderModal";
-import DeleteFolder from "./deleteFolderModal";
-import UploadFile from "./uploadFileModal";
+import AddFolder from "./modals/addFolderModal";
+
 import FolderComponent from "../../components/folder/folder";
 import FileComponent from "../../components/folder/file";
 import { getDownloadURL } from "../../services/file";
+import UploadFile from "./modals/uploadFileModal";
+import DeleteFolder from "./modals/deleteFolderModal";
 
 interface File {
   fileName: string;

@@ -1,5 +1,5 @@
 import { history, makeRequest, showErrorMessage } from "./common";
-import { LOGIN } from "./endpoints";
+import { IS_LOGGED_IN, LOGIN } from "./endpoints";
 
 export const handleLogin = async (values: any) => {
   try {
@@ -14,5 +14,15 @@ export const handleLogin = async (values: any) => {
     history.push("/home?path=%2Froot");
   } catch (e) {
     showErrorMessage("Authentication Error", "Invalid username or password");
+  }
+};
+
+export const isLoggedIn = async () => {
+  try {
+    const loginStatus = await makeRequest(IS_LOGGED_IN, "GET");
+    return loginStatus;
+  } catch (e) {
+    console.log("Unauthorized user!");
+    return false;
   }
 };

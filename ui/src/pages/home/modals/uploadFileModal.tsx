@@ -2,7 +2,7 @@ import { Button, Modal } from "antd";
 import React, { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router-dom";
-import Uploader from "../../components/uploader/uploader";
+import Uploader from "../../../components/uploader/uploader";
 
 interface UploadFileProps {
   updateList?: any;

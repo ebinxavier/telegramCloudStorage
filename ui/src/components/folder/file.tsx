@@ -3,6 +3,7 @@ import { FileOutlined } from "@ant-design/icons";
 import "./folder.css";
 import { getDownloadURL } from "../../services/file";
 import { Skeleton } from "antd";
+import { shortenFileName } from "../../services/common";
 
 interface FolderProps {
   fileName: string;
@@ -38,7 +39,7 @@ const File: React.FC<FolderProps> = ({ fileName, onClick, thumbnail }) => {
           <img src={icon} alt="thumbnail" />
         )}
       </div>
-      <p>{fileName}</p>
+      <p>{shortenFileName(fileName)}</p>
     </span>
   );
 };

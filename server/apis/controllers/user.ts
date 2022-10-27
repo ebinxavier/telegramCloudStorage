@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { JWT_EXPIRY } from "../../constants";
 
 import { deRegisterUser, loginUser, registerUser } from "../../database/user";
+import { injectOwnerId } from "../middlewares";
 const user = express.Router();
 
 /**
@@ -17,11 +18,14 @@ user.post("/login", async (req: Request, res: Response) => {
       console.log("JWT Secret not defined in the env!");
       throw new Error("Internal server error");
     }
-    const id = await loginUser(req.body.username, req.body.password);
-    const token = await jwt.sign({ id }, secret, {
+    const { id, chatId, token } = await loginUser(
+      req.body.username,
+      req.body.password
+    );
+    const JWTtoken = await jwt.sign({ id, chatId, token }, secret, {
       expiresIn: JWT_EXPIRY,
     });
-    res.send({ token });
+    res.send({ token: JWTtoken });
   } catch (e) {
     res.status(500).send({
       e,
@@ -31,15 +35,15 @@ user.post("/login", async (req: Request, res: Response) => {
 });
 
 /**
- * POST: { body.username, body.password, body.botToken, body.tgChatId }
+ * POST: { body.username, body.password, body.botToken, body.chatId }
  */
 user.post("/register", async (req: Request, res) => {
   try {
     const user = await registerUser(
       req.body.username,
       req.body.password,
-      req.body.botToken || process.env.token,
-      req.body.tgChatId || process.env.chatId
+      req.body.botToken,
+      req.body.chatId
     );
     res.send(user);
   } catch (e) {

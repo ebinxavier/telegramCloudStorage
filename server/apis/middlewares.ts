@@ -20,6 +20,8 @@ export const injectOwnerId = (
     if (isValid) {
       const tokenInfo = jwt.decode(token);
       req.headers["owner"] = tokenInfo["id"];
+      req.headers["chatId"] = tokenInfo["chatId"];
+      req.headers["token"] = tokenInfo["token"];
       next();
     } else {
       console.log("Invalid Token!");

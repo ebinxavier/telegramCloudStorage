@@ -34,3 +34,7 @@ Other CLI commands
 
 - Upload limit is 50mb now, increase it to 2gb use real account instead of bot
 - React page refresh issue.
+
+## Register new user
+
+[Read here](https://github.com/ebinxavier/telegramCloudStorage/blob/main/ui/public/help/help.md)

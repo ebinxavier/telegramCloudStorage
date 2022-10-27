@@ -5,3 +5,14 @@
 .navigator-margin {
     margin: 16px 0;
 }
+
+.header-title{
+    font-size: 25px;
+    color: white;
+    font-weight:bold;
+    float: left;
+}
+
+.logout-btn{
+    float: right;
+}

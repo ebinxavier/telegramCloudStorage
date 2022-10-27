@@ -29,10 +29,18 @@ file.post(
   async (req: Request, res: Response) => {
     try {
       console.log("Saving...", req.file);
+      const chatId = req.headers.chatId;
+      const token = req.headers.token;
+      const owner = req.headers.owner;
       const data = fs.readFileSync(req.file.path);
-      const response = await uploadDocument(data, req.file.originalname);
+      const response = await uploadDocument(
+        data,
+        req.file.originalname,
+        token,
+        chatId
+      );
       const updatedFolder = await addFile(
-        new mongoose.Types.ObjectId(req.headers.owner as string),
+        new mongoose.Types.ObjectId(owner as string),
         req.body.path,
         req.file.originalname,
         response.document
@@ -49,9 +57,9 @@ file.post(
 
 file.get("/download", async (req: Request, res: Response) => {
   try {
-    console.log("fileId", req.query);
-    const filePath = await downloadDocument(req.query.fileId);
-    const url = getDownloadURL(filePath);
+    const token = req.headers.token;
+    const filePath = await downloadDocument(req.query.fileId, token);
+    const url = getDownloadURL(filePath, token);
     res.send({ url });
   } catch (e) {
     res.status(500).send({
