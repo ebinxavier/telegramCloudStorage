@@ -11,7 +11,8 @@
     "start": "cd dist && NODE_ENV=production node index.js",
     "build": "rm -rf dist && npm run react:build && tsc --sourceMap false && mv ui/build dist/ui",
     "react:build": "cd ui && npm run build && cd ..",
-    "react:dev": "cd ui && npm start"
+    "react:dev": "cd ui && npm start",
+    "install": "npm install --prefix ./ui"
   },
   "keywords": [],
   "author": "",
