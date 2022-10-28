@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "nodemon server/index.ts",
     "start": "cd dist && NODE_ENV=production node index.js",
-    "build": "rm -rf dist && npm run react:build && tsc --sourceMap false && mv ui/build dist/ui",
+    "build": "rm -rf dist && npm run react:build && tsc --sourceMap false && mv ui/build dist/ui && mkdir dist/uploads",
     "react:build": "cd ui && npm run build && cd ..",
     "react:dev": "cd ui && npm start",
     "install": "npm install --prefix ./ui"
