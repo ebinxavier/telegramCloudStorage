@@ -27,12 +27,9 @@ export const startAPIServer = () => {
     res.sendFile(path.join(__dirname, "../ui/index.html"));
   });
 
-  if (process.env.NODE_ENV === "development") {
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT);
-    console.log(`Express server started on port: ${PORT}!`);
-  } else {
-    console.log("Server is not listening in production mode!");
-  }
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT);
+  console.log(`Express server started on port: ${PORT}!`);
+
   return app;
 };

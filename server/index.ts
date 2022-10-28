@@ -8,5 +8,4 @@ import { startAPIServer } from "./apis/apis";
 // Connecting to MongoDB before all operations.
 connect();
 // Start Express Server
-const app = startAPIServer();
-module.exports = app;
+startAPIServer();
