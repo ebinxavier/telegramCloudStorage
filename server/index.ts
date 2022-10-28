@@ -9,4 +9,4 @@ import { startAPIServer } from "./apis/apis";
 connect();
 // Start Express Server
 const app = startAPIServer();
-export default app;
+module.exports = app;
