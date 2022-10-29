@@ -8,16 +8,17 @@ import { Button, Col, Form, Input, Row } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 import { handleLogin } from "../../services/user";
+import { isMobile } from "react-device-detect";
+
 import "./login.css";
 
 const Register: React.FC = () => {
   return (
     <Row>
-      <Col md={8}></Col>
-      <Col md={8}>
+      <Col md={8} sm={20} offset={isMobile ? 0 : 8}>
         <Form
           name="normal_login"
-          className="form-border-register"
+          className="form-border"
           initialValues={{ remember: true }}
           onFinish={handleLogin}
         >
@@ -64,6 +65,7 @@ const Register: React.FC = () => {
 
           <Form.Item>
             <Button
+              block
               type="primary"
               htmlType="submit"
               className="login-form-button"
@@ -84,7 +86,6 @@ const Register: React.FC = () => {
           </a>
         </Form>
       </Col>
-      <Col md={8}></Col>
     </Row>
   );
 };

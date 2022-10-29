@@ -8,7 +8,7 @@ interface NavigatorProps {
   path: string;
 }
 const Navigator: React.FC<NavigatorProps> = ({ path }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   const pathList = path.slice(1).split("/");
   const tail = pathList[pathList.length - 1];

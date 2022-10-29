@@ -38,7 +38,12 @@ const File: React.FC<FolderProps> = ({ fileName, onClick, thumbnail }) => {
         {!thumbnail ? (
           <FileOutlined size={30} className="fileIcon" />
         ) : loading ? (
-          <Skeleton.Image className="imageSkeleton" active />
+          <Skeleton.Image
+            className={
+              isMobile ? "imageSkeleton imageSkeleton-mobile" : "imageSkeleton"
+            }
+            active
+          />
         ) : (
           <img src={icon} alt="thumbnail" />
         )}

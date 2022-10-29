@@ -7,17 +7,19 @@ import { downloadDocument, getDownloadURL, uploadDocument } from "../../bot";
 import { injectOwnerId } from "../middlewares";
 import { addFile } from "../../database/folder";
 import mongoose from "mongoose";
+import { FILE_STORAGE_PATH } from "../../constants";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/");
+    fs.mkdirSync(FILE_STORAGE_PATH, { recursive: true });
+    cb(null, FILE_STORAGE_PATH);
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname)); //Appending extension
   },
 });
 
-const upload = multer({ dest: "uploads/", storage });
+const upload = multer({ dest: FILE_STORAGE_PATH, storage });
 
 const file = express.Router();
 
@@ -45,7 +47,13 @@ file.post(
         req.file.originalname,
         response.document
       );
-      res.send(updatedFolder);
+      // removing temp file form server
+      fs.unlink(req.file.path, (error) => {
+        if (error) {
+          console.log(`Unable to remove temp file: ${req.file.path}!`);
+        }
+        res.send(updatedFolder);
+      });
     } catch (e) {
       res.status(500).send({
         e,

@@ -14,6 +14,13 @@
     background: #e7e7e7;
 }
 
+.folder p {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 5px;
+}
+
 .folderIcon{
     margin-right: 10px;
     font-size: 25px;
@@ -76,6 +83,8 @@
     height: 154px !important;
 }
 
+/* Mobile styles */
+
 .file-mobile{
     width: 120px;
     padding: 3px;
@@ -91,4 +100,25 @@
     height: 120px;
     object-fit: cover;
     padding-top: 25px;
+}
+
+.folder-mobile{
+    width: 120px;
+    padding: 3px;
+}
+
+.folder-mobile img {
+    width: 114px;
+    height: 120px;
+}
+
+.folder-mobile span {
+    width: 114px;
+    object-fit: cover;
+    padding-top: 15px;
+}
+
+.imageSkeleton-mobile div {
+    width: 100px !important;
+    height: 90px !important;
 }

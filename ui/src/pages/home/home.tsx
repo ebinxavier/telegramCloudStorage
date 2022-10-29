@@ -72,13 +72,15 @@ const Home: React.FC = () => {
         />
       )}
       {!!folderInfo?.folders?.length && <Divider />}
-      {folderInfo?.folders?.map((folder) => (
-        <FolderComponent
-          key={folder.folderName}
-          onClick={() => handleFolderClick(folder.path)}
-          folderName={folder.folderName}
-        />
-      ))}
+      <div className={isMobile ? "center" : ""}>
+        {folderInfo?.folders?.map((folder) => (
+          <FolderComponent
+            key={folder.folderName}
+            onClick={() => handleFolderClick(folder.path)}
+            folderName={folder.folderName}
+          />
+        ))}
+      </div>
 
       {!!folderInfo?.files?.length && <Divider />}
       <div className={isMobile ? "center" : ""}>
