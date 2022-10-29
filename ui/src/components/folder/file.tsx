@@ -1,21 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { FileOutlined } from "@ant-design/icons";
 import "./folder.css";
 import { getDownloadURL } from "../../services/file";
-import { Skeleton } from "antd";
-import { shortenFileName } from "../../services/common";
+import { Image, Skeleton } from "antd";
+import { getFileSize, shortenFileName } from "../../services/common";
 import { isMobile } from "react-device-detect";
+import FileMask from "./fileMask";
 
 interface FolderProps {
   fileName: string;
-  onClick: any;
+  onDownload: any;
   thumbnail: string;
+  file: any;
 }
-const File: React.FC<FolderProps> = ({ fileName, onClick, thumbnail }) => {
+const File: React.FC<FolderProps> = ({
+  fileName,
+  onDownload,
+  thumbnail,
+  file,
+}) => {
   const [icon, setIcon] = useState("");
   const [loading, setLoading] = useState(true);
+  const [openPreview, setOpenPreview] = useState(false);
+  const [isImage, setIsImage] = useState(false);
+  const [hdImage, setHdImage] = useState("");
+
+  const handlePreviewClick = () => {
+    const hdFileId = file?.content?.file_id;
+    if (!hdImage && hdFileId) {
+      getDownloadURL(hdFileId).then((image) => {
+        setHdImage(image.url);
+      });
+    }
+    setOpenPreview(true);
+  };
 
   useEffect(() => {
+    if (file?.content?.mime_type?.includes("image")) {
+      setIsImage(true);
+    }
     if (thumbnail) {
       getDownloadURL(thumbnail)
         .then((image) => {
@@ -27,17 +49,12 @@ const File: React.FC<FolderProps> = ({ fileName, onClick, thumbnail }) => {
     } else {
       setLoading(false);
     }
-  }, [thumbnail]);
+  }, [file, thumbnail]);
 
   return (
-    <span
-      className={isMobile ? "file file-mobile" : "file"}
-      onDoubleClick={onClick}
-    >
+    <span className={isMobile ? "file file-mobile" : "file"}>
       <div>
-        {!thumbnail ? (
-          <FileOutlined size={30} className="fileIcon" />
-        ) : loading ? (
+        {loading ? (
           <Skeleton.Image
             className={
               isMobile ? "imageSkeleton imageSkeleton-mobile" : "imageSkeleton"
@@ -45,10 +62,28 @@ const File: React.FC<FolderProps> = ({ fileName, onClick, thumbnail }) => {
             active
           />
         ) : (
-          <img src={icon} alt="thumbnail" />
+          <Image
+            src={hdImage || icon || "fileIcon.png"}
+            height={200}
+            alt="thumbnail"
+            preview={{
+              bodyStyle: { backgroundColor: "black" },
+              mask: (
+                <FileMask
+                  onPreview={icon && isImage && handlePreviewClick}
+                  onDownload={onDownload}
+                  fileSize={getFileSize(file?.content?.file_size)}
+                />
+              ),
+              visible: openPreview,
+              onVisibleChange(value) {
+                if (!value) setOpenPreview(false);
+              },
+            }}
+          />
         )}
       </div>
-      <p>{shortenFileName(fileName)}</p>
+      <p>{shortenFileName(fileName, "file", isMobile ? 12 : 20)}</p>
     </span>
   );
 };

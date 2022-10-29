@@ -19,19 +19,25 @@
     white-space: nowrap;
     overflow: hidden;
     margin: 5px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.folder span{
+    vertical-align: middle;
 }
 
 .folderIcon{
     margin-right: 10px;
     font-size: 25px;
     vertical-align: sub;
+    
 }
 
 .file{
     display: inline-block;
     padding: 10px;
     border: 1px solid rgb(218 220 224);
-    width: 200px;
+    width: 230px;
     border-radius: 6px;
     margin: 10px 10px 10px 0;
     cursor: pointer;
@@ -41,19 +47,15 @@
     background: white;
 }
 
+.mask{
+    background-color: black;
+}
 
 .file img {
-    width: 175px;
-    height: 200px;
     object-fit: cover;
-    display: inline-block;
+    width: 210px;
 }
 
-.file span {
-    width: 175px;
-    height: 200px;
-    object-fit: cover;
-}
 .file:hover{
     background: #e7e7e7;
 }
@@ -68,10 +70,11 @@
 
 .fileIcon{
     margin-right: 10px;
-    font-size: 80px;
+    font-size: 100px;
     font-weight: normal;
     vertical-align: sub;
     padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 .imageSkeleton{
@@ -86,20 +89,17 @@
 /* Mobile styles */
 
 .file-mobile{
-    width: 120px;
+    width: 150px;
     padding: 3px;
 }
 
 .file-mobile img {
-    width: 114px;
+    width: 140px;
     height: 120px;
 }
 
-.file-mobile span {
-    width: 114px;
-    height: 120px;
-    object-fit: cover;
-    padding-top: 25px;
+.file-mobile div > .ant-image-mask {
+    opacity: 1;
 }
 
 .folder-mobile{

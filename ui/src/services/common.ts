@@ -54,14 +54,32 @@ export const isLoggedIn = () => {
   return !!localStorage.getItem("accessToken");
 };
 
-export const shortenFileName = (fileName: string) => {
-  const file = fileName.substring(0, 15);
+export const shortenFileName = (
+  fileName: string,
+  type: string = "file",
+  length: number = 15
+) => {
+  const file = fileName.substring(0, length);
+  if (type === "folder")
+    return `${file}${fileName.length > length ? "..." : ""}`;
   try {
     const fileParts = fileName.split(".");
     const [extension] = fileParts.slice(-1);
     const fileNameWithoutExt = fileParts.slice(0, -1).join(".");
-    return `${fileNameWithoutExt.substring(0, 15)}.${extension}`;
+    return `${fileNameWithoutExt.substring(0, length)}.${extension}`;
   } catch (e) {
     return file;
   }
+};
+
+export const getFileSize = (size: number) => {
+  size = Number(size);
+  let unit = "KB";
+  size = Math.ceil(size / 1000);
+  if (size > 1000) {
+    unit = "MB";
+    size /= 1000;
+    return `${size.toFixed(1)} ${unit}`;
+  }
+  return `${size} ${unit}`;
 };

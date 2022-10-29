@@ -87,9 +87,10 @@ const Home: React.FC = () => {
         {folderInfo?.files?.map((file) => (
           <FileComponent
             key={file?.content?.file_unique_id}
-            onClick={() => handleDownload(file)}
+            onDownload={() => handleDownload(file)}
             fileName={file?.fileName}
             thumbnail={file?.content?.thumb?.file_id}
+            file={file}
           />
         ))}
       </div>
