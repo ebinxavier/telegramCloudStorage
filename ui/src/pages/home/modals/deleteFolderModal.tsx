@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router-dom";
 import { deleteFolder } from "../../../services/folder";
-
+import { isMobile } from "react-device-detect";
 interface DeleteFolderProps {
   updateList: any;
 }
@@ -48,7 +48,8 @@ const DeleteFolder: React.FC<DeleteFolderProps> = ({ updateList }) => {
         type="primary"
         onClick={showModal}
       >
-        <DeleteOutlined /> Delete Folder
+        <DeleteOutlined />
+        {!isMobile && " Delete Folder"}
       </Button>
       <Modal
         title="Delete Folder"

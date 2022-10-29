@@ -53,6 +53,10 @@
 .file p {
     margin-bottom: 0;
     margin-top: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 5px;
 }
 
 .fileIcon{
@@ -70,4 +74,21 @@
 .imageSkeleton div {
     width: 130px !important;
     height: 154px !important;
+}
+
+.file-mobile{
+    width: 120px;
+    padding: 3px;
+}
+
+.file-mobile img {
+    width: 114px;
+    height: 120px;
+}
+
+.file-mobile span {
+    width: 114px;
+    height: 120px;
+    object-fit: cover;
+    padding-top: 25px;
 }

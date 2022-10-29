@@ -4,6 +4,7 @@ import "./folder.css";
 import { getDownloadURL } from "../../services/file";
 import { Skeleton } from "antd";
 import { shortenFileName } from "../../services/common";
+import { isMobile } from "react-device-detect";
 
 interface FolderProps {
   fileName: string;
@@ -29,7 +30,10 @@ const File: React.FC<FolderProps> = ({ fileName, onClick, thumbnail }) => {
   }, [thumbnail]);
 
   return (
-    <span className="file" onDoubleClick={onClick}>
+    <span
+      className={isMobile ? "file file-mobile" : "file"}
+      onDoubleClick={onClick}
+    >
       <div>
         {!thumbnail ? (
           <FileOutlined size={30} className="fileIcon" />

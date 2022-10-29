@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { FolderAddOutlined } from "@ant-design/icons";
 import { useSearchParams } from "react-router-dom";
 import { makeFolder } from "../../../services/folder";
+import { isMobile } from "react-device-detect";
 
 interface AddFolderProps {
   updateList: any;
@@ -42,7 +43,8 @@ const AddFolder: React.FC<AddFolderProps> = ({ updateList }) => {
   return (
     <>
       <Button type="primary" onClick={showModal}>
-        <FolderAddOutlined /> Add Folder
+        <FolderAddOutlined />
+        {!isMobile && " Add Folder"}
       </Button>
       <Modal
         title="Add New Folder"

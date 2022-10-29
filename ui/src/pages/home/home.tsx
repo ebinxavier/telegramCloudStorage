@@ -4,6 +4,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import LayoutComponent from "../../components/layout";
 import { listFolder } from "../../services/folder";
 import "../../components/components.css";
+import "./home.css";
 import { Divider, Empty } from "antd";
 import AddFolder from "./modals/addFolderModal";
 
@@ -12,7 +13,7 @@ import FileComponent from "../../components/folder/file";
 import { getDownloadURL } from "../../services/file";
 import UploadFile from "./modals/uploadFileModal";
 import DeleteFolder from "./modals/deleteFolderModal";
-
+import { isMobile } from "react-device-detect";
 interface File {
   fileName: string;
   content: any;
@@ -57,11 +58,11 @@ const Home: React.FC = () => {
       path={folderInfo?.path}
       loading={folderLoading}
       actions={
-        <>
+        <div className={isMobile ? "header-btns" : ""}>
           <AddFolder updateList={setFolderInfo} />
           <UploadFile updateList={setFolderInfo} />
           <DeleteFolder updateList={setFolderInfo} />
-        </>
+        </div>
       }
     >
       {!folderInfo?.folders?.length && !folderInfo?.files?.length && (
@@ -80,15 +81,16 @@ const Home: React.FC = () => {
       ))}
 
       {!!folderInfo?.files?.length && <Divider />}
-
-      {folderInfo?.files?.map((file) => (
-        <FileComponent
-          key={file?.content?.file_unique_id}
-          onClick={() => handleDownload(file)}
-          fileName={file?.fileName}
-          thumbnail={file?.content?.thumb?.file_id}
-        />
-      ))}
+      <div className={isMobile ? "center" : ""}>
+        {folderInfo?.files?.map((file) => (
+          <FileComponent
+            key={file?.content?.file_unique_id}
+            onClick={() => handleDownload(file)}
+            fileName={file?.fileName}
+            thumbnail={file?.content?.thumb?.file_id}
+          />
+        ))}
+      </div>
     </LayoutComponent>
   );
 };
