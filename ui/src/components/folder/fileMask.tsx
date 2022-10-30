@@ -5,7 +5,7 @@ import { isMobile } from "react-device-detect";
 const btnWidth = isMobile ? 50 : 80;
 const FileMask = ({ onPreview, onDownload, fileSize }: any) => {
   return (
-    <div style={{ marginTop: isMobile ? 50 : 100 }}>
+    <div style={{ marginTop: 50 }}>
       {onPreview && (
         <>
           <Button

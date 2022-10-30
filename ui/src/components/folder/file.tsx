@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./folder.css";
 import { getDownloadURL } from "../../services/file";
 import { Image, Skeleton } from "antd";
-import { getFileSize, shortenFileName } from "../../services/common";
+import { getFileSize, history, shortenFileName } from "../../services/common";
 import { isMobile } from "react-device-detect";
 import FileMask from "./fileMask";
+import { useParams } from "react-router-dom";
 
 interface FolderProps {
   fileName: string;
@@ -23,6 +24,7 @@ const File: React.FC<FolderProps> = ({
   const [openPreview, setOpenPreview] = useState(false);
   const [isImage, setIsImage] = useState(false);
   const [hdImage, setHdImage] = useState("");
+  const params = useParams();
 
   const handlePreviewClick = () => {
     const hdFileId = file?.content?.file_id;
@@ -51,6 +53,14 @@ const File: React.FC<FolderProps> = ({
     }
   }, [file, thumbnail]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (history.location.hash !== "#preview") {
+        setOpenPreview(false);
+      }
+    });
+  }, [params]);
+
   return (
     <span className={isMobile ? "file file-mobile" : "file"}>
       <div>
@@ -78,6 +88,16 @@ const File: React.FC<FolderProps> = ({
               visible: openPreview,
               onVisibleChange(value) {
                 if (!value) setOpenPreview(false);
+                // Adding navigation params
+                if (value) {
+                  history.push(
+                    history.location.pathname +
+                      history.location.search +
+                      "#preview"
+                  );
+                } else {
+                  history.back();
+                }
               },
             }}
           />
