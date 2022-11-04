@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 
 import LayoutComponent from "../../components/layout";
@@ -10,13 +10,15 @@ import AddFolder from "./modals/addFolderModal";
 
 import FolderComponent from "../../components/folder/folder";
 import FileComponent from "../../components/folder/file";
-import { getDownloadURL } from "../../services/file";
+import { deleteFile, getDownloadURL } from "../../services/file";
 import UploadFile from "./modals/uploadFileModal";
 import DeleteFolder from "./modals/deleteFolderModal";
 import { isMobile } from "react-device-detect";
+import { showErrorMessage } from "../../services/common";
 interface File {
   fileName: string;
   content: any;
+  _id: string;
 }
 interface Folder {
   folderName: string;
@@ -32,6 +34,14 @@ const Home: React.FC = () => {
   const [previousPath, setPreviousPath] = useState("");
   const params = useParams();
 
+
+  const getCurrentPath = useCallback(
+    () => {
+      return searchParams.get("path") || "/root";
+    },
+    [searchParams],
+  )
+
   const handleFolderClick = (path: string) => {
     setSearchParams({ path });
   };
@@ -42,20 +52,40 @@ const Home: React.FC = () => {
     window.open(response.url, "_self");
   };
 
+  const handleDelete = async (file: File) => {
+    try {
+      const path = getCurrentPath();
+      console.log(file, path);
+      await deleteFile(path, file.content.file_id, file.content.message_id);
+      if (folderInfo) {
+        const files = [...folderInfo?.files];
+        files.splice(files?.findIndex(f => f === file), 1);
+        setFolderInfo({ ...folderInfo, files });
+      }
+    } catch (e) {
+      showErrorMessage("An error occurred", "Error while deleting the file!")
+    }
+  };
+
+
+  const updateFolder = (path: string) => {
+    setFolderLoading(true);
+    listFolder(path)
+      .then((data) => {
+        setFolderInfo(data as any);
+      })
+      .finally(() => {
+        setFolderLoading(false);
+      });
+  }
+
   useEffect(() => {
-    const path = searchParams.get("path") || "/root";
+    const path = getCurrentPath();
     if (previousPath !== path) {
       setPreviousPath(path);
-      setFolderLoading(true);
-      listFolder(path)
-        .then((data) => {
-          setFolderInfo(data as any);
-        })
-        .finally(() => {
-          setFolderLoading(false);
-        });
+      updateFolder(path);
     }
-  }, [params, searchParams, previousPath]);
+  }, [params, getCurrentPath, previousPath]);
 
   return (
     <LayoutComponent
@@ -88,15 +118,15 @@ const Home: React.FC = () => {
 
       {!!folderInfo?.files?.length && <Divider />}
       <div className={isMobile ? "center" : ""}>
-        {folderInfo?.files?.map((file) => (
-          <FileComponent
-            key={file?.content?.file_unique_id}
-            onDownload={() => handleDownload(file)}
-            fileName={file?.fileName}
-            thumbnail={file?.content?.thumb?.file_id}
-            file={file}
-          />
-        ))}
+        {folderInfo?.files?.map((file) => <FileComponent
+          key={file?._id}
+          onDownload={() => handleDownload(file)}
+          onDelete={() => handleDelete(file)}
+          fileName={file?.fileName}
+          thumbnail={file?.content?.thumb?.file_id}
+          file={file}
+        />
+        )}
       </div>
     </LayoutComponent>
   );

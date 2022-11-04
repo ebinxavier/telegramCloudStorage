@@ -21,6 +21,11 @@ export const uploadDocument = (data, fileName, token, chatId) => {
   );
 };
 
+export const removeDocument = (messageId, token, chatId) => {
+  const bot = getMemoizedBot(token);
+  return bot.deleteMessage(chatId, messageId);
+};
+
 export const downloadDocument = async (fileId, token) => {
   const bot = getMemoizedBot(token);
   const file = await bot.getFile(fileId);

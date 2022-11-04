@@ -10,12 +10,14 @@ import { useParams } from "react-router-dom";
 interface FolderProps {
   fileName: string;
   onDownload: any;
+  onDelete: any;
   thumbnail: string;
   file: any;
 }
 const File: React.FC<FolderProps> = ({
   fileName,
   onDownload,
+  onDelete,
   thumbnail,
   file,
 }) => {
@@ -61,6 +63,18 @@ const File: React.FC<FolderProps> = ({
     });
   }, [params]);
 
+  useEffect(() => {
+    // Adding navigation params for preview
+    if (openPreview) {
+      history.push(
+        history.location.pathname +
+        history.location.search +
+        "#preview"
+      );
+    }
+  }, [openPreview])
+
+
   return (
     <span className={isMobile ? "file file-mobile" : "file"}>
       <div>
@@ -82,20 +96,15 @@ const File: React.FC<FolderProps> = ({
                 <FileMask
                   onPreview={icon && isImage && handlePreviewClick}
                   onDownload={onDownload}
+                  onDelete={onDelete}
                   fileSize={getFileSize(file?.content?.file_size)}
+
                 />
               ),
               visible: openPreview,
               onVisibleChange(value) {
-                if (!value) setOpenPreview(false);
-                // Adding navigation params
-                if (value) {
-                  history.push(
-                    history.location.pathname +
-                      history.location.search +
-                      "#preview"
-                  );
-                } else {
+                if (!value) {
+                  setOpenPreview(false);
                   history.back();
                 }
               },

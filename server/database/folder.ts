@@ -181,3 +181,24 @@ export const addFile = async (
   console.log("File added to ", folder);
   return doc;
 };
+
+export const removeFile = async (
+  owner: mongoose.Types.ObjectId,
+  path: string,
+  fileId: mongoose.Types.ObjectId
+) => {
+  if (!owner || !path || !fileId)
+    throw new Error("Owner, path and fileId are required!");
+
+  const FolderModel = mongoose.model(`FolderModel`, FolderSchema);
+  path = removeTrailingSlash(path);
+  const folder = await FolderModel.findOne({ path, owner });
+  if (!folder) throw new Error("Folder not found!");
+  const deleteFileIndex = folder.files.findIndex(
+    (file) => file._id.toString() === fileId.toString()
+  );
+  folder.files.splice(deleteFileIndex, 1);
+  const doc = await folder.save();
+  console.log("File removed: ", fileId);
+  return doc;
+};

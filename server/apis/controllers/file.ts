@@ -3,9 +3,14 @@ import { Request, Response } from "express";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import { downloadDocument, getDownloadURL, uploadDocument } from "../../bot";
+import {
+  downloadDocument,
+  getDownloadURL,
+  removeDocument,
+  uploadDocument,
+} from "../../bot";
 import { injectOwnerId } from "../middlewares";
-import { addFile } from "../../database/folder";
+import { addFile, removeFile } from "../../database/folder";
 import mongoose from "mongoose";
 import { FILE_STORAGE_PATH } from "../../constants";
 
@@ -45,7 +50,7 @@ file.post(
         new mongoose.Types.ObjectId(owner as string),
         req.body.path,
         req.file.originalname,
-        response.document
+        { ...response.document, message_id: response.message_id }
       );
       // removing temp file form server
       fs.unlink(req.file.path, (error) => {
@@ -69,6 +74,33 @@ file.get("/download", async (req: Request, res: Response) => {
     const filePath = await downloadDocument(req.query.fileId, token);
     const url = getDownloadURL(filePath, token);
     res.send({ url });
+  } catch (e) {
+    res.status(500).send({
+      e,
+      message: e?.message,
+    });
+  }
+});
+
+file.post("/remove", async (req: Request, res: Response) => {
+  try {
+    const token = req.headers.token;
+    const owner = req.headers.owner;
+    const chatId = req.headers.chatId;
+
+    const path = req.body.path;
+    const fileId = req.body.fileId; // mongoID
+    const messageId = req.body.messageId; // telegramID
+
+    // Remove from MongoDB
+    await removeFile(
+      new mongoose.Types.ObjectId(owner as string),
+      path,
+      fileId
+    );
+    // Remove from Telegram
+    const tgResponse = await removeDocument(messageId, token, chatId);
+    res.send({ folder: tgResponse });
   } catch (e) {
     res.status(500).send({
       e,
