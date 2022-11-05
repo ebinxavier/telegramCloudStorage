@@ -74,7 +74,6 @@ export const listFolder = async (
   const FolderModel = mongoose.model(`FolderModel`, FolderSchema);
   const folder = await FolderModel.findOne({ path, owner }).populate("folders");
   if (!folder) throw new Error("Folder not found!");
-  console.log(folder);
   const result: FolderDTO = folder.toJSON();
   return result;
 };
@@ -91,7 +90,6 @@ export const makeFolder = async (
   path = removeTrailingSlash(path);
   const folder = await FolderModel.findOne({ path, owner });
   if (!folder) throw new Error("Folder not found!");
-  console.log("path found:", path);
   if (folder.folders.find((folder) => folder.folderName === folderName)) {
     throw new Error(`Folder '${folderName}' already exists on path '${path}'`);
   }
@@ -100,7 +98,7 @@ export const makeFolder = async (
   folder.folders.push(subFolder as any);
   folder.lastModified = new Date();
   await folder.save();
-  console.log("Folder added to ", folder);
+  console.log("Folder added");
   const result: FolderDTO = folder.toJSON();
   return result;
 };
@@ -116,7 +114,6 @@ const getAllDocsToBeDeleted = async (
   const children = parent.folders;
   accumulator.push(...children.map((child) => child._id));
   for (let child of children) {
-    console.log(child.path);
     await getAllDocsToBeDeleted(child._id, accumulator);
   }
   return accumulator;
@@ -143,12 +140,9 @@ export const removeFolder = async (
     const childIndex = parent.folders.findIndex((child) => {
       return child._id.toString() === folder._id.toString();
     });
-    console.log("Deleting child index: ", { childIndex });
     parent.folders.splice(childIndex, 1);
     await parent.save();
   }
-
-  console.log(folder.path);
   const listOfDocs = [folder._id];
   const ids = await getAllDocsToBeDeleted(folder._id, listOfDocs);
   const status = await FolderModel.deleteMany({ _id: { $in: ids } });
@@ -178,7 +172,7 @@ export const addFile = async (
   folder.files.push(file);
 
   const doc = await folder.save();
-  console.log("File added to ", folder);
+  console.log("File added!");
   return doc;
 };
 
