@@ -20,6 +20,6 @@ We have to create a Telegram Group and add our `Bot` to it.
   ![alt text](./create-group-3.png)
 - Send a message `/test` to the group
   ![alt text](./create-group-4.png)
-- Now open this URL on browser by replacing `TOKEN` with yours: https://api.telegram.org/bot{TOKEN}getUpdates
+- Now open this URL on browser by replacing `TOKEN` with yours: https://api.telegram.org/bot{TOKEN}/getUpdates
 - Now you have got the `Group ID` or Chat ID
   ![alt text](./call-bot-api.png)

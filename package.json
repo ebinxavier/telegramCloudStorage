@@ -7,11 +7,11 @@
     "node": "16.x"
   },
   "scripts": {
-    "dev": "NODE_ENV=development nodemon server/index.ts",
+    "node:dev": "NODE_ENV=development nodemon server/index.ts",
     "start": "cd dist && NODE_ENV=production node index.js",
     "build": "rm -rf dist && npm run react:build && tsc --sourceMap false && mv ui/build dist/ui && mkdir dist/uploads",
     "react:build": "cd ui && npm run build && cd ..",
-    "react:dev": "cd ui && npm start",
+    "react:dev": "cd ui && PORT=3001 npm start",
     "install": "npm install --prefix ./ui"
   },
   "keywords": [],
