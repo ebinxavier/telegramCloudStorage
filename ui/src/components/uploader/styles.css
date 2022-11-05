@@ -94,13 +94,14 @@
     font-size: 14px;
     font-weight: 400;
     color: #333333;
+    width: 40px;
   }
   
   .dzu-previewImage {
-    width: auto;
     max-height: 40px;
-    max-width: 140px;
+    width: 30px;
     border-radius: 4px;
+    object-fit: cover;
   }
   
   .dzu-previewButton {
@@ -139,4 +140,3 @@
     color: #333333;
     cursor: unset;
   }
-  

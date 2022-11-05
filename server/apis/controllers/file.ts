@@ -50,7 +50,10 @@ file.post(
         new mongoose.Types.ObjectId(owner as string),
         req.body.path,
         req.file.originalname,
-        { ...response.document, message_id: response.message_id }
+        {
+          ...(response.document || response.sticker), // some file will treated as stickers eg: *.webp
+          message_id: response.message_id,
+        }
       );
       // removing temp file form server
       fs.unlink(req.file.path, (error) => {

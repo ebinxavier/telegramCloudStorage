@@ -71,10 +71,10 @@ export const registerUser = async (
     );
     const response: UserDTO = userData.toJSON();
     delete response.password;
-    console.log(`User "${username}" registered!`, response);
+    console.log(`User "${username}" registered!`);
     return response;
   } catch (e) {
-    // console.log("Error while registering user", e);
+    console.log("Error while registering user");
     throw e;
   }
 };
