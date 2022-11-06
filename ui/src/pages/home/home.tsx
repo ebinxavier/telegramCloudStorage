@@ -123,7 +123,7 @@ const Home: React.FC = () => {
           onDownload={() => handleDownload(file)}
           onDelete={() => handleDelete(file)}
           fileName={file?.fileName}
-          thumbnail={file?.content?.thumb?.file_id}
+          thumbnail={file?.content?.thumb_url}
           file={file}
         />
         )}

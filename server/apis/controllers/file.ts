@@ -46,13 +46,30 @@ file.post(
         token,
         chatId
       );
+
+      const fileSaved = response.document || response.sticker;
+
+      console.log(fileSaved.thumb);
+      const thumbFileId = fileSaved.thumb.file_id;
+      const hdFileId = fileSaved.file_id;
+
+      // Generating thumbnail url
+      const thumbFilePath = await downloadDocument(thumbFileId, token);
+      const thumbUrl = getDownloadURL(thumbFilePath, token);
+
+      // Generating HD url
+      const hdFilePath = await downloadDocument(hdFileId, token);
+      const hdUrl = getDownloadURL(hdFilePath, token);
+
       const updatedFolder = await addFile(
         new mongoose.Types.ObjectId(owner as string),
         req.body.path,
         req.file.originalname,
         {
-          ...(response.document || response.sticker), // some file will treated as stickers eg: *.webp
+          ...fileSaved, // some file will treated as stickers eg: *.webp
           message_id: response.message_id,
+          thumb_url: thumbUrl,
+          hd_url: hdUrl,
         }
       );
       // removing temp file form server

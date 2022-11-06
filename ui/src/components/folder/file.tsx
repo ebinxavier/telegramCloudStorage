@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./folder.css";
-import { getDownloadURL } from "../../services/file";
-import { Image, Skeleton } from "antd";
+import { Image } from "antd";
 import { getFileSize, history, shortenFileName } from "../../services/common";
 import { isMobile } from "react-device-detect";
 import FileMask from "./fileMask";
@@ -22,19 +21,15 @@ const File: React.FC<FolderProps> = ({
   file,
 }) => {
   const [icon, setIcon] = useState("");
-  const [loading, setLoading] = useState(true);
   const [openPreview, setOpenPreview] = useState(false);
   const [isImage, setIsImage] = useState(false);
   const [hdImage, setHdImage] = useState("");
   const params = useParams();
 
   const handlePreviewClick = () => {
-    const hdFileId = file?.content?.file_id;
-    if (!hdImage && hdFileId) {
-      getDownloadURL(hdFileId).then((image) => {
-        setHdImage(image.url);
-      });
-    }
+    setTimeout(() => {
+      setHdImage(file?.content?.hd_url);
+    })
     setOpenPreview(true);
   };
 
@@ -43,15 +38,9 @@ const File: React.FC<FolderProps> = ({
       setIsImage(true);
     }
     if (thumbnail) {
-      getDownloadURL(thumbnail)
-        .then((image) => {
-          setIcon(image.url);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    } else {
-      setLoading(false);
+      setTimeout(() => {
+        setIcon(thumbnail);
+      })
     }
   }, [file, thumbnail]);
 
@@ -78,14 +67,7 @@ const File: React.FC<FolderProps> = ({
   return (
     <span className={isMobile ? "file file-mobile" : "file"}>
       <div>
-        {loading ? (
-          <Skeleton.Image
-            className={
-              isMobile ? "imageSkeleton imageSkeleton-mobile" : "imageSkeleton"
-            }
-            active
-          />
-        ) : (
+        {
           <Image
             src={hdImage || icon || "fileIcon.png"}
             height={200}
@@ -110,7 +92,7 @@ const File: React.FC<FolderProps> = ({
               },
             }}
           />
-        )}
+        }
       </div>
       <p>{shortenFileName(fileName, "file", isMobile ? 12 : 20)}</p>
     </span>
