@@ -3,7 +3,9 @@ import axios from "axios";
 import { createBrowserHistory } from "history";
 
 export const baseURL =
-  process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "https://telegramcloudstorage-production.up.railway.app";
 
 console.log("Env:", process.env.NODE_ENV);
 type RequestMethod = "GET" | "POST";

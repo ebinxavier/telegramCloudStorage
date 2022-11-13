@@ -30,8 +30,8 @@ const hashPassword = async (password) => {
   return hash;
 };
 
-const validatePassword = async (password: string, hash: string) => {
-  return await bcrypt.compare(password, hash);
+const validatePassword = (password: string, hash: string) => {
+  return bcrypt.compare(password, hash);
 };
 
 export interface UserDTO {
@@ -92,14 +92,15 @@ export const loginUser = async (
       );
       if (isValid) {
         console.log("Login success!", record._id);
+        return {
+          id: record._id,
+          token: record.botToken as string,
+          chatId: record.chatId as string,
+        };
       } else {
-        console.log("Login Error!");
+        console.log("Wrong pswd!");
+        throw new Error("Login Error!");
       }
-      return {
-        id: record._id,
-        token: record.botToken as string,
-        chatId: record.chatId as string,
-      };
     } else {
       console.log("No such user!");
       throw new Error("No such user!");
