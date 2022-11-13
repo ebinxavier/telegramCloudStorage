@@ -1,11 +1,10 @@
 import { notification } from "antd";
+import { message } from "antd";
 import axios from "axios";
 import { createBrowserHistory } from "history";
 
 export const baseURL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3000"
-    : "https://telegramcloudstorage-production.up.railway.app";
+  process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
 
 console.log("Env:", process.env.NODE_ENV);
 type RequestMethod = "GET" | "POST";
@@ -84,4 +83,8 @@ export const getFileSize = (size: number) => {
     return `${size.toFixed(1)} ${unit}`;
   }
   return `${size} ${unit}`;
+};
+
+export const showSuccessMessage = (description : string) => {
+  message.success(description);
 };

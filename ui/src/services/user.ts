@@ -26,3 +26,22 @@ export const isLoggedIn = async () => {
     return false;
   }
 };
+
+export const handleRegistration = async (values: any) => {
+  try {
+    const registrationResponse = await makeRequest(REGISTER, "POST", {
+      body: {
+        username: values.username,
+        password: values.password,
+		    botToken: values.botToken,
+		    chatId	: values.chatId
+      },
+    });
+    const { data } = registrationResponse;
+    showSuccessMessage("User : "+ data.username+" registered successfully.. Continue Login");
+    history.push("/login");
+  } catch (e) {
+    showErrorMessage("Authentication Error", "Couldn't register"+values.username);
+  }
+};
+
