@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Telegram Drive</string>
+    <string name="title_activity_main">Telegram Drive</string>
+    <string name="package_name">com.telegramdrive.app</string>
+    <string name="custom_url_scheme">com.telegramdrive.app</string>
+</resources>
