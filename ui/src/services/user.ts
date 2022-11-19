@@ -1,5 +1,5 @@
-import { history, makeRequest, showErrorMessage } from "./common";
-import { IS_LOGGED_IN, LOGIN } from "./endpoints";
+import { history, makeRequest, showErrorMessage, showSuccessMessage } from "./common";
+import { IS_LOGGED_IN, LOGIN, REGISTER } from "./endpoints";
 
 export const handleLogin = async (values: any) => {
   try {
@@ -26,3 +26,22 @@ export const isLoggedIn = async () => {
     return false;
   }
 };
+
+export const handleRegistration = async (values: any) => {
+  try {
+    const registrationResponse = await makeRequest(REGISTER, "POST", {
+      body: {
+        username: values.username,
+        password: values.password,
+		    botToken: values.botToken,
+		    chatId	: values.chatId
+      },
+    });
+    const { data } = registrationResponse;
+    showSuccessMessage("User : "+ data.username+" registered successfully.. Continue Login");
+    history.push("/login");
+  } catch (e) {
+    showErrorMessage("Authentication Error", "Couldn't register"+values.username);
+  }
+};
+

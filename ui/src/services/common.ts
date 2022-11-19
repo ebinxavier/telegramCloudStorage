@@ -1,4 +1,5 @@
 import { notification } from "antd";
+import { message } from "antd";
 import axios from "axios";
 import { createBrowserHistory } from "history";
 
@@ -84,4 +85,8 @@ export const getFileSize = (size: number) => {
     return `${size.toFixed(1)} ${unit}`;
   }
   return `${size} ${unit}`;
+};
+
+export const showSuccessMessage = (description : string) => {
+  message.success(description);
 };
