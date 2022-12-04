@@ -7,7 +7,7 @@ import {
 import { Button, Col, Form, Input, Row } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
-import { handleLogin } from "../../services/user";
+import { handleRegistration } from "../../services/user";
 import { isMobile } from "react-device-detect";
 
 import "./login.css";
@@ -20,7 +20,7 @@ const Register: React.FC = () => {
           name="normal_login"
           className="form-border"
           initialValues={{ remember: true }}
-          onFinish={handleLogin}
+          onFinish={handleRegistration}
         >
           <div className="title">Telegram Storage</div>
 
