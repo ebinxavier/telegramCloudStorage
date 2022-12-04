@@ -19,6 +19,10 @@ export const startAPIServer = () => {
   app.use("/api/v1/folder/", folderController);
   app.use("/api/v1/file/", fileController);
 
+  app.get("/api/v1/healthy", (_req, res) => {
+    res.send({ status: "healthy" });
+  });
+
   // Serving React UI
   app.use("/", express.static(path.join(__dirname, "../ui")));
 

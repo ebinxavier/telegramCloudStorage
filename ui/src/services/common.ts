@@ -3,17 +3,43 @@ import { message } from "antd";
 import axios from "axios";
 import { createBrowserHistory } from "history";
 
-export const baseURL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3000"
-    : "https://telegramcloudstorage-production.up.railway.app";
-
 console.log("Env:", process.env.NODE_ENV);
 type RequestMethod = "GET" | "POST";
 interface RequestData {
   body?: any;
   queryParams?: any;
 }
+
+let cachedBaseURL: string;
+
+const getBaseURLPromise = async () => {
+  if (cachedBaseURL) {
+    return cachedBaseURL;
+  }
+  const deployments = [
+    "http://localhost:3000",
+    "https://telegramcloudstorage-production-server2.up.railway.app",
+    "https://telegramcloudstorage-production.up.railway.app",
+  ];
+
+  return new Promise(async (resolve, reject) => {
+    for (let URL of deployments) {
+      try {
+        await fetch(`${URL}/api/v1/healthy`);
+        cachedBaseURL = URL;
+        console.log("Server Found: ", URL);
+        resolve(URL);
+        break;
+      } catch (e) {
+        console.log(`${URL} not available!`, e);
+      }
+    }
+
+    reject("No deployments found!");
+  });
+};
+
+export const getBaseURL = () => cachedBaseURL;
 
 export const makeRequest = async (
   url: string,
@@ -23,11 +49,12 @@ export const makeRequest = async (
   onDownloadProgress?: any
 ) => {
   try {
+    await getBaseURLPromise();
     const response = await axios({
       headers: {
         Authorization: `bearer ${localStorage.getItem("accessToken")}`,
       },
-      baseURL,
+      baseURL: cachedBaseURL,
       url,
       method: reqMethod,
       data: reqData?.body,
@@ -87,6 +114,6 @@ export const getFileSize = (size: number) => {
   return `${size} ${unit}`;
 };
 
-export const showSuccessMessage = (description : string) => {
+export const showSuccessMessage = (description: string) => {
   message.success(description);
 };
