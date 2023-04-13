@@ -20,7 +20,7 @@ export const startAPIServer = () => {
   app.use("/api/v1/file/", fileController);
 
   app.get("/api/v1/healthy", (_req, res) => {
-    res.send({ status: "healthy" });
+    res.send({ status: "healthy", req: _req.headers });
   });
 
   // Serving React UI
