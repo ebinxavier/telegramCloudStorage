@@ -18,8 +18,7 @@ const getBaseURLPromise = async () => {
   }
   const deployments = [
     "http://localhost:3000",
-    "https://telegramcloudstorage-production-server2.up.railway.app",
-    "https://telegramcloudstorage-production.up.railway.app",
+    ""
   ];
 
   return new Promise(async (resolve, reject) => {
