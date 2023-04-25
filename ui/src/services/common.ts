@@ -16,10 +16,7 @@ const getBaseURLPromise = async () => {
   if (cachedBaseURL) {
     return cachedBaseURL;
   }
-  const deployments = [
-    "http://localhost:3000",
-    ""
-  ];
+  const deployments = ["", "http://localhost:3000"];
 
   return new Promise(async (resolve, reject) => {
     for (let URL of deployments) {
