@@ -23,8 +23,6 @@ For development we have 2 servers for Node and React.
 
 Now the UI will be available at http://localhost:3001
 
-Production [URL](https://telegramcloudstorage-production.up.railway.app).
-
 ![server](./ui/public/ss/ss-home.png)
 
 ## Register new user
