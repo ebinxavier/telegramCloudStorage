@@ -1,5 +1,6 @@
 import TelegramBot from "node-telegram-bot-api";
 
+// Memoized bots for optimization
 const cachedBots = {};
 const getMemoizedBot = (token) => {
   if (!cachedBots[token]) {
@@ -33,5 +34,6 @@ export const downloadDocument = async (fileId, token) => {
 };
 
 export const getDownloadURL = (fileName, token) => {
+  console.log("Generating download URL");
   return `https://api.telegram.org/file/bot${token}/${fileName}`;
 };
