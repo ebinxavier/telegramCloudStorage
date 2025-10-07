@@ -5,7 +5,7 @@
 Open BotFather on your telegram and type `/newbot` and give a name to your bot eg: `TelegramCloudStorage` also give your bot's name eg: `ebinsCloudStorageBot`
 
 - Create a bot
-  ![alt text](./create-bot-token.png)
+ <img src="./create-bot-token.png" alt="alt text" width="300" height="800">
   Copy this `TOKEN` for step 2.
 
 ### 2. Get Telegram Group ID
