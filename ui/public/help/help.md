@@ -16,7 +16,8 @@ We have to create a Telegram Group and add our `Bot` to it.
  <img src="./create-group-1.png" alt="alt text" width="300" height="800">
 
 - Add our bot to it
-  ![alt text](./create-group-2.png)
+<img src="./create-group-2.png" alt="alt text" width="300" height="800">
+
 - Give a group name
 <img src="./create-group-3.png" alt="alt text" width="300" height="800">
 - Send a message `/test` to the group
