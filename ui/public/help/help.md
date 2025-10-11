@@ -14,10 +14,13 @@ We have to create a Telegram Group and add our `Bot` to it.
 
 - Create Group
   ![alt text](./create-group-1.png)
+
 - Add our bot to it
-  ![alt text](./create-group-2.png)
+<img src="./create-group-2.png" alt="alt text" width="300" height="800">
+
 - Give a group name
   ![alt text](./create-group-3.png)
+  
 - Send a message `/test` to the group
   ![alt text](./create-group-4.png)
 - Now open this URL on browser by replacing `TOKEN` with yours: https://api.telegram.org/bot{TOKEN}/getUpdates
