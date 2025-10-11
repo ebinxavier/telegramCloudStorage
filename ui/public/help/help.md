@@ -13,7 +13,8 @@ Open BotFather on your telegram and type `/newbot` and give a name to your bot e
 We have to create a Telegram Group and add our `Bot` to it.
 
 - Create Group
-  ![alt text](./create-group-1.png)
+ <img src="./create-group-1.png" alt="alt text" width="300" height="800">
+
 - Add our bot to it
   ![alt text](./create-group-2.png)
 - Give a group name
